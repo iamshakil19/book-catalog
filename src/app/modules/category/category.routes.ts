@@ -11,12 +11,10 @@ router.post(
   CategoryController.createCategory
 );
 
-router.get('/', auth(ENUM_USER_ROLE.ADMIN), CategoryController.getAllCategory);
+router.get('/', CategoryController.getAllCategory);
 
-router.get(
-  '/:id',
-  auth(ENUM_USER_ROLE.ADMIN),
-  CategoryController.getSingleCategory
-);
+router.get('/:id', CategoryController.getSingleCategory);
+
+router.patch('/:id', CategoryController.updateCategory);
 
 export const CategoryRoutes = router;
