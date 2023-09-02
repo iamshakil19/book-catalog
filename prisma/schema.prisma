@@ -42,7 +42,7 @@ model Book {
   id               String            @id @default(uuid())
   title            String
   author           String
-  price            Int
+  price            Float
   genre            String
   publicationDate  DateTime
   categoryId       String
