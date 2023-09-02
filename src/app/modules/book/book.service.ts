@@ -14,6 +14,11 @@ const getAllBook = async (): Promise<Book[]> => {
   return result;
 };
 
+const getBooksByCategoryId = async (categoryId: string) => {
+  const result = await prisma.book.findMany({ where: { categoryId } });
+  return result;
+};
+
 const getSingleBook = async (id: string): Promise<Book | null> => {
   const result = await prisma.book.findUnique({
     where: {
@@ -29,4 +34,5 @@ export const BookService = {
   createBook,
   getAllBook,
   getSingleBook,
+  getBooksByCategoryId,
 };
