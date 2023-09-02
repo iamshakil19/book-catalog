@@ -10,4 +10,6 @@ router.post(
   BookController.createBook
 );
 
+router.get('/', BookController.getAllBook);
+
 export const BookRoutes = router;
