@@ -4,6 +4,16 @@ import { CategoryService } from './category.service';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
 
+const createCategory = async (req: Request, res: Response) => {
+  const result = await CategoryService.createCategory(req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Category created successfully',
+    data: result,
+  });
+};
+
 const getAllCategory = catchAsync(async (req: Request, res: Response) => {
   const result = await CategoryService.getAllCategory();
   sendResponse(res, {
@@ -28,4 +38,5 @@ const getSingleCategory = catchAsync(async (req: Request, res: Response) => {
 export const CategoryController = {
   getAllCategory,
   getSingleCategory,
+  createCategory,
 };
