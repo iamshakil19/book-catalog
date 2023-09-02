@@ -15,8 +15,6 @@ const getAllBook = async (filters: any, paginationOptions: any) => {
   const { size, page, skip } =
     paginationHelpers.calculatePagination(paginationOptions);
   const { search, minPrice, maxPrice, ...filterData } = filters;
-  console.log(filterData, 22);
-  console.log(Object.keys(filterData));
 
   const andConditions = [];
 
@@ -53,7 +51,6 @@ const getAllBook = async (filters: any, paginationOptions: any) => {
       },
     });
   }
-  console.log(andConditions, 'and conditions');
 
   const whereConditions: Prisma.BookWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
@@ -91,9 +88,39 @@ const getAllBook = async (filters: any, paginationOptions: any) => {
   };
 };
 
-const getBooksByCategoryId = async (categoryId: string) => {
-  const result = await prisma.book.findMany({ where: { categoryId } });
-  return result;
+const getBooksByCategoryId = async (
+  paginationOptions: any,
+  categoryId: string
+) => {
+  const { size, page, skip } =
+    paginationHelpers.calculatePagination(paginationOptions);
+
+  const result = await prisma.book.findMany({
+    where: { categoryId },
+    skip,
+    take: size,
+    orderBy:
+      paginationOptions.sortBy && paginationOptions.sortOrder
+        ? { [paginationOptions.sortBy]: paginationOptions.sortOrder }
+        : {
+            title: 'desc',
+          },
+  });
+  const total = await prisma.book.count({
+    where: { categoryId },
+  });
+
+  const totalPage = Math.ceil(total / size);
+
+  return {
+    meta: {
+      total,
+      page,
+      size,
+      totalPage,
+    },
+    data: result,
+  };
 };
 
 const getSingleBook = async (id: string): Promise<Book | null> => {
