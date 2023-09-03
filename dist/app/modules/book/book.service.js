@@ -70,7 +70,6 @@ const getAllBook = (filters, paginationOptions) => __awaiter(void 0, void 0, voi
         });
     }
     const whereConditions = andConditions.length > 0 ? { AND: andConditions } : {};
-    console.log(whereConditions, 'where conditions');
     const result = yield prisma_1.default.book.findMany({
         include: {
             category: true,
