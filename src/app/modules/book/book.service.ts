@@ -54,7 +54,6 @@ const getAllBook = async (filters: any, paginationOptions: any) => {
 
   const whereConditions: Prisma.BookWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
-  console.log(whereConditions, 'where conditions');
 
   const result = await prisma.book.findMany({
     include: {
